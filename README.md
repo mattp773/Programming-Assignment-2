@@ -11,9 +11,13 @@ You should turn in a report about your code, how it works, how it was tested, an
 You will develop your cache simulator to operate as with the cache memory we discussed in class and in your book.  The cache will be configurable with command line options as follows (you may include default values and make these optional parameters for your program):
 
 •	Block size (number of words. Note that we don’t differentiate in this project for words and bytes. You can assume all addresses are referring to words, and no further byte-word conversion is needed).
+
 •	Number of blocks in the cache. 
+
 •	Associativity (only direct mapped is needed).
+
 •	Hit time (in cycles)
+
 •	Miss time (in cycles)
 
 Your program will be given a series of addresses (from an ASCII file that contains hex addresses with one address per line). Given this input and for the cache as parameterized at the command line, compute the hit/miss rate and the AMAT.  You may choose reasonable values according to your needs. 
