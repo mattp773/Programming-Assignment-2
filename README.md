@@ -1,6 +1,5 @@
-ECE 356 
-Lab 2: Cache memory
-Due Date: Apr 15 (by midnight)
+# ECE 356 Lab 2: Cache memory
+### Due Date: Apr 15 (by midnight)
 
 In this project you will write a cache simulator.  You may work in groups of your choice, just like PA1. 
 
@@ -24,7 +23,9 @@ Your program will be given a series of addresses (from an ASCII file that contai
 
 Your cache only needs to support reads. We will test your code with the test cases you developed (in txt file format).  In this programming assignment’s grading phase, if there are questions, the TA may need to meet with each group to discuss your code, your testing, and other details.  If you work in pairs, you should each be able to discuss any aspect of the project.
 
-Extra credit: you need to implement an additional associativity policy first proposed here to obtain 15% extra credit:
+## Extra credit: 
+
+You need to implement an additional associativity policy first proposed here to obtain 15% extra credit
 
 Implement flexible associativity policies, such as two way associative, etc. Your code should support an additional parameter for this purpose. 
 
