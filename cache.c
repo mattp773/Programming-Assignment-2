@@ -36,12 +36,8 @@ int main(int argc, char ** argv) {
     // based on the number of blocks and the block size
     int indexBits = ceil(log2(numBlocks));
     int offsetBits;
-    if(assoc == 1) {
-        offsetBits = ceil(log2(blockSize));
-    }
-    else {
-        offsetBits = ceil(log2(assoc));
-    }
+   
+    offsetBits = ceil(log2(blockSize));
     //initialize cache
     //set all valid bit and tag bits to 0
     struct cacheLine cache[numBlocks/assoc][assoc];
@@ -78,7 +74,7 @@ int main(int argc, char ** argv) {
         addressCount++;
 
         //parse the index and tag from the address
-        index = ((address) / blockSize) % (numBlocks/assoc);
+        index = ((address >> offsetBits) / blockSize) % (numBlocks/assoc);
         tag = address >> (indexBits + offsetBits);
         offset = address & 1;
         printf("Address: %x, Index: %x, Tag: %x, Offset: %x\n", address, index, tag, offset);
