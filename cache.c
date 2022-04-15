@@ -29,7 +29,7 @@ int main(int argc, char ** argv) {
     int assoc = atoi(argv[3]);
     int hitTime = atoi(argv[4]);
     int missTime = atoi(argv[5]);
-    printf("number of blocks: %d\n", numBlocks);
+    // printf("number of blocks: %d\n", numBlocks);
 
     int indexBits = ceil(log2(numBlocks));
     int offsetBits = ceil(log2(blockSize));
@@ -57,27 +57,39 @@ int main(int argc, char ** argv) {
     int numMisses = 0;
     int index;
     int tag;
+    int addressCount = 0;
 
     while(fscanf(fp, "%x", &address) > 0) {
-        index = (address / blockSize) % numBlocks;
+        addressCount++;
+        index = ((address >> offsetBits) / blockSize) % numBlocks;
         tag = address >> (indexBits + offsetBits);
 
         if(cache[index].valid == 0) {
             cache[index].valid = 1;
             cache[index].tag = tag;
             numMisses++;
-            printf("Miss: %x, Tag: %d, Index: %d\n", address, tag, index);
+            // printf("Miss: %x, Tag: %d, Index: %d, Offset: %d\n", address, tag, index, (address & ((1 << (offsetBits)) - 1)));
         }
         else if(cache[index].valid == 1 && cache[index].tag != tag) {
             numMisses++;
             cache[index].tag = tag;
-            printf("Miss: %x, Tag: %d, Index: %d\n", address, tag, index);
+            // printf("Miss: %x, Tag: %d, Index: %d, Offset: %d\n", address, tag, index, (address & ((1 << (offsetBits)) - 1)));
+
         }
         else if(cache[index].valid == 1 && cache[index].tag == tag) {
-            printf("Hit: %x, Tag: %d, Index: %d\n", address, tag, index);
+            // printf("Hit: %x, Tag: %d, Index: %d, Offset: %d\n", address, tag, index, (address & ((1 << (offsetBits)) - 1)));
             numHits++;
         }
     }
     printf("%d hits and %d misses\n", numHits, numMisses);
+    float hitRate = (numHits * 100) / (float)addressCount;
+    printf("Hit rate: %.2f%%\n", hitRate);
+    float missRate = (numMisses * 100) / (float)addressCount;
+    printf("Miss rate: %.2f%%\n", missRate);
+
+    //calculate average memory access time
+    int avgAccessTime = (hitTime) + (missRate * missTime);
+    printf("AMAT = %d cycles\n", avgAccessTime);
+
     return 0;
 }
