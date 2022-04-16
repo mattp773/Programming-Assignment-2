@@ -39,11 +39,11 @@ int main(int argc, char ** argv) {
 
     //initialize cache
     //set all valid bit and tag bits to 0
-    struct cacheLine cache[numBlocks];
+    struct cacheLine cache[numBlocks][assoc];
     for(int i = 0; i < numBlocks; i++) {
         for(int j = 0; j < assoc; j++) {
-            cache[i].valid = 0;
-            cache[i].tag = 0;
+            cache[i][j].valid = 0;
+            cache[i][j].tag = 0;
         }
     }
 
@@ -53,6 +53,7 @@ int main(int argc, char ** argv) {
         printf("Error opening input file\n");
         return 1;
     }
+
     //track the number of addresses read, the number of hits, and the number of misses
     int addressCount = 0;
     int numHits = 0;
@@ -76,16 +77,16 @@ int main(int argc, char ** argv) {
         //if it does, check if the tag matches the tag in the cache
         //if the tag does not match, increment the number of misses and set the new tag
         //if the tag does match, increment the number of hits
-        if(cache[index].valid == 0) {
-            cache[index].valid = 1;
-            cache[index].tag = tag;
+        if(cache[index][0].valid == 0) {
+            cache[index][0].valid = 1;
+            cache[index][0].tag = tag;
             numMisses++;
         }
-        else if(cache[index].valid == 1 && cache[index].tag != tag) {
+        else if(cache[index][0].valid == 1 && cache[index][0].tag != tag) {
             numMisses++;
-            cache[index].tag = tag;
+            cache[index][0].tag = tag;
         }
-        else if(cache[index].valid == 1 && cache[index].tag == tag) {
+        else if(cache[index][0].valid == 1 && cache[index][0].tag == tag) {
             numHits++;
         }
     }
@@ -96,7 +97,7 @@ int main(int argc, char ** argv) {
     //calculate and print the hit/miss rates and AMAT
     float hitRate = (numHits * 100) / (float)addressCount;
     float missRate = (numMisses * 100) / (float)addressCount;
-    int AMAT = (hitTime) + (missRate * missTime);
+    int AMAT = (hitTime) + ((missRate / 100) * missTime);
     printf("Hit rate: %.2f%%\nMiss rate: %.2f%%\nAMAT = %d cycles\n", hitRate, missRate, AMAT);
     return 0;
 }
