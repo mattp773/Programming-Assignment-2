@@ -28,7 +28,7 @@ int main(int argc, char ** argv) {
     //read in all the arguments to the corresponding variables
     int blockSize = atoi(argv[1]);
     int numBlocks = atoi(argv[2]);
-    int assoc = atoi(argv[3]);
+    int assoc = atoi(argv[3]); //this should always be 1 for this program
     int hitTime = atoi(argv[4]);
     int missTime = atoi(argv[5]);
 
@@ -69,7 +69,7 @@ int main(int argc, char ** argv) {
         addressCount++;
 
         //parse the index and tag from the address
-        index = ((address >> offsetBits) / blockSize) % numBlocks;
+        index = (address / blockSize) % numBlocks;
         tag = address >> (indexBits + offsetBits);
 
         //check if the index has valid data
