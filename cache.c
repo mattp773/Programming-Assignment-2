@@ -54,7 +54,7 @@ int main(int argc, char ** argv) {
     }
 
     //open the input file and check to make sure it opens
-    FILE * fp = fopen("test.txt", "r");
+    FILE * fp = fopen("input.txt", "r");
     if(fp == NULL) {
         printf("Error opening input file\n");
         return 1;
