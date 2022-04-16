@@ -40,7 +40,7 @@ int main(int argc, char ** argv) {
 
     //calculate the number of index and offset bits 
     // based on the number of blocks and the block size
-    int indexBits = ceil(log2(numBlocks));
+    int indexBits = ceil(log2(numBlocks/assoc));
     int offsetBits = ceil(log2(blockSize));
 
     //initialize cache
