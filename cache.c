@@ -32,6 +32,12 @@ int main(int argc, char ** argv) {
     int hitTime = atoi(argv[4]);
     int missTime = atoi(argv[5]);
 
+    if(assoc > numBlocks) {
+        printf("Usage: ./cache <block size in words> <number of blocks> <associativity> <hit time in cycles> <miss time in cycles>\n");
+        printf("Associativity cannot be greater than the number of blocks\n");
+        return 1;
+    }
+
     //calculate the number of index and offset bits 
     // based on the number of blocks and the block size
     int indexBits = ceil(log2(numBlocks));
@@ -74,7 +80,8 @@ int main(int argc, char ** argv) {
         addressCount++;
 
         //parse the index and tag from the address
-        index = ((address >> offsetBits) / blockSize) % (numBlocks/assoc);
+        //in the case of set associative, the index is the same as the set
+        index = (address / blockSize) % (numBlocks/assoc);
         tag = address >> (indexBits + offsetBits);
 
         //check if the index has valid data
